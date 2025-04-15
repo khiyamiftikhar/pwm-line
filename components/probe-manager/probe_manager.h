@@ -1,7 +1,7 @@
 #ifndef PROBE_MANAGER_H
 #define PROBE_MANAGER_H
 #include <stdint.h>
-
+//#include "pwm_line.h"
 
 
 #define         ERR_PROBE_MANAGER_BASE                          0
@@ -21,7 +21,7 @@ to the enduser. And it is the job of the class to calculate/convert the values.
 typedef struct prober_config{
 
     uint8_t* gpio_no;
-    uint32_t* duty_cycles;          //in percentage. Array size equal to total_gpio. Width of each pulse. cannot be caluculated as complex requireent of distinct.
+    uint32_t* pulse_widths;          //in microseconds. Array size equal to total_gpio. Width of each pulse. cannot be caluculated as complex requireent of distinct.
     uint8_t total_gpio;
     uint32_t time_period;           //in microseconds
     uint32_t dead_time;             //microseconds. Dead Time between each pulse. The phase is determined by this
@@ -37,12 +37,11 @@ typedef struct prober_interface{
 
 
 typedef struct prober{
-    prober_config_t* config;
-    uint16_t* phase;                    //in degrees. To be calculated internally
+    void* lines;                //internally typcasted to  pwm_line_t. encapsulation
+    uint8_t total_lines;
     prober_interface_t interface;
-
 }prober_t;   
 
 
-int proberCreate(struct prober_interface* self,prober_config_t* config);
+int proberCreate(prober_t* self,prober_config_t* config);
 #endif

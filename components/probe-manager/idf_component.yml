@@ -1,0 +1,3 @@
+dependencies:
+  pwm-line:
+    override_path: ../pwm-line
