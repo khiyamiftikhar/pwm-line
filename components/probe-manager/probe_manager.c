@@ -1,3 +1,8 @@
+/*There is no check to have exclusive pwm channel assignemnt for multiple instances
+If multiple instances of pwm manager are to be created, they will still use use  from 
+channel number 0 to total channel required. Actually a single channel can be associated with
+multiple gpio in esp32, so all those gpio will have same pwm signal.
+*/
 
 #include "esp_log.h"
 #include "esp_err.h"
