@@ -38,7 +38,6 @@ static const char* TAG="pwm line";
 
 
 
-
 static int percentage_to_ticks(int percentage,int total_ticks){
 
     return (percentage*total_ticks)/100;
@@ -84,7 +83,7 @@ static int pwmLagTicksCalculate(uint16_t phase,uint32_t dead_time,uint32_t time_
 }
 
 
-void pwmStop(pwm_line_interface_t* self){
+static void pwmStop(pwm_line_interface_t* self){
 
     pwm_line_t* pwm_line=container_of(self,pwm_line_t,interface);
 
@@ -93,7 +92,7 @@ void pwmStop(pwm_line_interface_t* self){
 }
 
 
-void pwmStart(pwm_line_interface_t* self){
+static void pwmStart(pwm_line_interface_t* self){
 
     pwm_line_t* pwm_line=container_of(self,pwm_line_t,interface);
 
@@ -132,6 +131,8 @@ int pwmCreate(pwm_line_t* self,pwm_config_t*  config){
     uint32_t duty_ticks=pulseWidthToTicks(config->pulse_width,time_period,LEDC_DUTY_RES);
     int lag=pwmLagTicksCalculate(config->phase,dead_time,time_period,LEDC_DUTY_RES);
     // Prepare and then apply the LEDC PWM channel configuration
+    //There are two modes high and low, and 8 channel for each
+    //So channel member can have value 0-7 but speed_mode tells channel no of which device, low or high
     ledc_channel_config_t ledc_channel = {
         .speed_mode     = LEDC_MODE,
         .channel        = config->channel_number,
