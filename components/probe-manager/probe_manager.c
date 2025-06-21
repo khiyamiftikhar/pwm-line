@@ -29,7 +29,6 @@ static const char* TAG="pwm line";
 
 
 
-
 static int start(prober_interface_t* self){
 
     prober_t* prb=container_of(self,prober_t,interface);
@@ -58,7 +57,6 @@ static int stop(prober_interface_t* self){
 
     return 0;
 }
-
 
 //not used
 static int proberCheckDeadTime(uint32_t time_period,uint32_t dead_time){
@@ -148,6 +146,7 @@ int proberCreate(prober_t* self,prober_config_t* config){
 
     self->interface.start=start;
     self->interface.stop=stop;
+    self->time_period=config->time_period;
 
     ESP_LOGI(TAG,"bye bye");       
     return 0;
