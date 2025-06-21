@@ -32,11 +32,14 @@ typedef struct prober_config{
 typedef struct prober_interface{
     int (*start)(struct prober_interface* self);
     int (*stop)(struct prober_interface* self);
+    uint32_t (*getTimePeriod)();
 }prober_interface_t;
 
 
+//It needs to be changed. This  whole struct must be private and only interface must be returned
 
 typedef struct prober{
+    uint32_t time_period;
     void* lines;                //internally typcasted to  pwm_line_t. encapsulation
     uint8_t total_lines;
     prober_interface_t interface;
